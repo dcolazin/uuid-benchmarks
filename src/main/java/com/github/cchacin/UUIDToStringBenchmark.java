@@ -39,4 +39,10 @@ public class UUIDToStringBenchmark {
     public String testEAIOv1() {
         return new com.eaio.uuid.UUID().toString();
     }
+
+    @Benchmark
+    public String testEAIOtoJava() {
+        com.eaio.uuid.UUID uuid = new com.eaio.uuid.UUID();
+        return new UUID(uuid.time, uuid.clockSeqAndNode).toString();
+    }
 }
