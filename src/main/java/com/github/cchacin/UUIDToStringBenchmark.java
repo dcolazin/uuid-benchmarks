@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = ITERATIONS, time = TEST_TIME, timeUnit = TimeUnit.MILLISECONDS)
 @Fork(1)
 @State(Scope.Benchmark)
-public class UUIDBenchmark {
+public class UUIDToStringBenchmark {
     private TimeBasedGenerator timeBasedGenerator;
 
     @Setup
@@ -26,17 +26,17 @@ public class UUIDBenchmark {
     }
 
     @Benchmark
-    public UUID testJDKv4() {
-        return UUID.randomUUID();
+    public String testJDKv4() {
+        return UUID.randomUUID().toString();
     }
 
     @Benchmark
-    public UUID testJUGv1() {
-        return this.timeBasedGenerator.generate();
+    public String testJUGv1() {
+        return this.timeBasedGenerator.generate().toString();
     }
 
     @Benchmark
-    public com.eaio.uuid.UUID testEAIOv1() {
-        return new com.eaio.uuid.UUID();
+    public String testEAIOv1() {
+        return new com.eaio.uuid.UUID().toString();
     }
 }
