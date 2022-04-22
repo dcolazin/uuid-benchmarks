@@ -1,31 +1,11 @@
 package com.github.cchacin;
 
-import static com.github.cchacin.BenchmarkConfiguration.ITERATIONS;
-import static com.github.cchacin.BenchmarkConfiguration.TEST_TIME;
-
-import com.fasterxml.uuid.EthernetAddress;
-import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
+import java.util.UUID;
 import net.jini.id.Uuid;
 import net.jini.id.UuidFactory;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-@BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MICROSECONDS)
-@Warmup(iterations = ITERATIONS, time = TEST_TIME, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = ITERATIONS, time = TEST_TIME, timeUnit = TimeUnit.MILLISECONDS)
-@Fork(1)
-@State(Scope.Benchmark)
-public class UUIDBenchmark {
-    private TimeBasedGenerator timeBasedGenerator;
-
-    @Setup
-    public void setup() {
-        this.timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
-    }
+public class UUIDBenchmark extends CommonBenchmark {
 
     @Benchmark
     public UUID testJDKv4() {
@@ -47,4 +27,13 @@ public class UUIDBenchmark {
         return UuidFactory.generate();
     }
 
+    @Benchmark
+    public org.apache.commons.id.uuid.UUID testCommonsv1() {
+        return versionOneGenerator.nextUUID();
+    }
+
+    @Benchmark
+    public org.apache.commons.id.uuid.UUID testCommonsv4() {
+        return versionFourGenerator.nextUUID();
+    }
 }
