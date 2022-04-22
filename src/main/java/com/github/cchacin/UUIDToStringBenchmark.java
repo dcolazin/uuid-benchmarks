@@ -6,6 +6,7 @@ import static com.github.cchacin.BenchmarkConfiguration.TEST_TIME;
 import com.fasterxml.uuid.EthernetAddress;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
+import net.jini.id.UuidFactory;
 import org.openjdk.jmh.annotations.*;
 
 import java.util.UUID;
@@ -45,4 +46,10 @@ public class UUIDToStringBenchmark {
         com.eaio.uuid.UUID uuid = new com.eaio.uuid.UUID();
         return new UUID(uuid.time, uuid.clockSeqAndNode).toString();
     }
+
+    @Benchmark
+    public String testRiverv4() {
+        return UuidFactory.generate().toString();
+    }
+
 }
